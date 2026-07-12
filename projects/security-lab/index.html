@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Lab Portfolio</title>
+    <meta name="description" content="A cybersecurity lab writeup covering setup, attacks, detections, incident response, and an analyst playbook." />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="navbar-logo" href="../../index.html" aria-label="Home">
+            <img src="../../logo.png" alt="Jorge Valdez" />
+        </a>
+        <ul class="navbar-links">
+            <li><a href="incident-response.html">Incident Response</a></li>
+            <li><a href="analyst-playbook.html">Playbook</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-wrapper" id="top">
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <div class="sidebar-label">On This Page</div>
+                <ul class="toc">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#stack">Lab Stack</a></li>
+                    <li><a href="#setup">Project Setup</a></li>
+                    <li><a href="#attacks">Attack Simulation</a></li>
+                    <li><a href="#detections">Blue Team Detections</a></li>
+                    <li><a href="#future">What I'd Do Next</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="page-head">
+                <div class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="#top">Home</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span>Lab writeup</span>
+                </div>
+
+                <div class="headline">
+                    <div class="headline-copy">
+                        <p class="eyebrow">Security lab</p>
+                        <h1 class="post-title">Security Lab Portfolio</h1>
+                        <p class="post-author">Author: Jorge Valdez</p>
+                        <p class="headline-text">
+                            A short writeup of the lab build, attack tests, and the detections that came out of it.
+                        </p>
+                    </div>
+                    <div class="headline-links">
+                        <a class="post-tag" href="#setup">Setup</a>
+                        <a class="post-tag" href="#attacks">Attacks</a>
+                        <a class="post-tag" href="#detections">Detections</a>
+                        <a class="post-tag" href="incident-response.html">Incident Response</a>
+                        <a class="post-tag" href="analyst-playbook.html">Playbook</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-meta">
+                <span>June 14, 2026</span>
+            </div>
+
+            <figure>
+                <img src="assets/images/banner-home.png" alt="Home lab banner" />
+            </figure>
+
+            <div class="post-meta">
+                <span>Cybersecurity project</span>
+                <span class="post-meta-sep">&middot;</span>
+                <span>VirtualBox, Wazuh, Kali, Windows</span>
+            </div>
+
+            <hr class="post-divider" />
+
+            <section id="overview">
+                <h2>Overview</h2>
+                <p>
+                    This project documents how I built a home lab, simulated real attacks, tuned detections, and documented the response side of the workflow. The goal was to practice defending a vulnerable endpoint, improve my SIEM monitoring skills, and build out the kind
+                    of detection engineering and incident response work that would be useful in a SOC environment.
+                </p>
+            </section>
+
+            <section id="stack">
+                <h2>Lab Stack</h2>
+                <p>
+                    The lab runs entirely inside VirtualBox, with three VMs communicating over an isolated internal network. Each machine had a specific role:
+                </p>
+                <ul>
+                    <li><strong>Ubuntu 22.04.5 LTS</strong> - Wazuh SIEM server and manager</li>
+                    <li><strong>Windows Server 2022 Enterprise</strong> - Target endpoint with Wazuh agent and Sysmon</li>
+                    <li><strong>Kali Linux</strong> - Offensive machine running Metasploit, msfvenom, and Mimikatz via the Kiwi extension</li>
+                </ul>
+                <p>
+                    VirtualBox was chosen because it supports running multiple VMs simultaneously and is free. Ubuntu 22.04.5 was used because most Wazuh documentation targets that release, which reduced setup friction. Windows Server 2022 replaced the originally planned
+                    Windows 11 endpoint after hitting TPM and Secure Boot requirements that VirtualBox does not easily satisfy. Kali was chosen for its pre-installed penetration testing tooling.
+                </p>
+            </section>
+
+            <section id="setup">
+                <h2>Project Setup</h2>
+
+                <p>
+                    Each VM was configured with two network adapters: Adapter 1 set to Internal Network for VM-to-VM communication, and Adapter 2 set to NAT for internet access and reaching the Wazuh dashboard from the host machine.
+                </p>
+                <figure>
+                    <img src="assets/images/setup-04-network-adapters.png" alt="Network adapters" />
+                </figure>
+
+                <p>
+                    After deploying the Wazuh manager and dashboard on the Ubuntu server, I configured the Windows endpoint's static IP and subnet, installed the Wazuh agent, and registered it with the manager.
+                </p>
+                <figure>
+                    <img src="assets/images/wazuh-agent.png" alt="Wazuh agent setup on Windows" />
+                </figure>
+
+                <h3>Troubleshooting</h3>
+
+                <p>
+                    The Windows 11 endpoint hit an indefinite black screen on first boot. Removing UEFI, switching to a standard boot, and changing the boot order resolved the screen issue, but exposed a harder problem: Windows 11 requires TPM 2.0 and Secure Boot, which
+                    are not easily satisfied in a standard VirtualBox setup. I switched to Windows Server 2022 Enterprise, which has no such hardware requirements and installed without issues.
+                </p>
+                <figure>
+                    <img src="assets/images/setup-07-boot-fix.png" alt="Windows boot fix" />
+                </figure>
+            </section>
+
+            <section id="attacks">
+                <h2>Attack Simulation</h2>
+
+                <p>
+                    Before running any attacks, I installed Sysmon on the Windows endpoint. Sysmon provides significantly richer telemetry than Windows Event Logs alone, particularly for process creation (EID 1), network connections (EID 3), and registry value sets (EID
+                    13), which are the events that matter most for detecting the techniques used in this lab.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-01-sysmon-download.png" alt="Sysmon download" />
+                </figure>
+
+                <p>
+                    I downloaded the SwiftOnSecurity Sysmon configuration, installed Sysmon with that config, and added the required <code>&lt;localfile&gt;</code> block to <code>ossec.conf</code> so Wazuh would ingest the Sysmon event channel. Opening
+                    an executable triggered a Wazuh alert immediately, confirming the full pipeline was working.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-03-sysmon-verification.png" alt="Sysmon verification" />
+                </figure>
+
+                <p>
+                    The first attack used <code>msfvenom</code> on Kali to generate a reverse shell payload. I set up a Metasploit listener, then served the payload to the Windows endpoint over HTTP. Windows Defender blocked the download on the first
+                    attempt, so I temporarily disabled real-time protection to simulate an environment where endpoint defenses had already been bypassed.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-04-reverse-shell-payload.png" alt="Reverse shell payload" />
+                </figure>
+                <figure>
+                    <img src="assets/images/attack-05-shell-connected.png" alt="Shell connected" />
+                </figure>
+
+                <p>
+                    With an active shell, I simulated persistence by writing the payload path to
+                    <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code>, ensuring the payload would execute automatically on every user login. Wazuh surfaced the full kill chain in its alerts: a file drop in the Public folder via PowerShell,
+                    a process chain from <code>shell.exe</code> to <code>cmd.exe</code>, and a registry value set event pointing to the Run key.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-06-persistence.png" alt="Persistence test" />
+                </figure>
+                <figure>
+                    <img src="assets/images/attack-07-alert-breakdown.png" alt="Alert breakdown" />
+                </figure>
+
+                <p>
+                    The MITRE ATT&amp;CK mapping at this point covered T1059 (PowerShell execution), T1105 (ingress tool transfer), and T1547.001 (Run key persistence), and all three were detected and correctly tagged.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-08-mitre-coverage.png" alt="MITRE coverage" />
+                </figure>
+
+                <p>
+                    The second attack opened a Meterpreter session via Metasploit. From there, I loaded the Kiwi extension and ran <code>lsa_dump_sam</code> to invoke Mimikatz. It returned an NTLM hash for the Administrator account, enough to authenticate
+                    via pass-the-hash without ever needing the cleartext password.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-09-metasploit-setup.png" alt="Metasploit setup" />
+                </figure>
+                <figure>
+                    <img src="assets/images/attack-10-mimikatz-hash.png" alt="Mimikatz hash" />
+                </figure>
+
+                <p>
+                    Wazuh surfaced a registry value set event, a suspicious <code>svchost.exe</code> event, and a Level 12 privilege escalation alert from the Meterpreter session. The full alert timeline showed a clear spike across both attacks, with
+                    the highest-volume events being the Public folder file drop, a drop into a protected directory, and the <code>svchost.exe</code> anomaly.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-11-privilege-alerts.png" alt="Privilege escalation alerts" />
+                </figure>
+                <figure>
+                    <img src="assets/images/attack-12-alert-spike.png" alt="Alert spike" />
+                </figure>
+
+                <p>
+                    By the end of the lab, Sysmon was running with the SwiftOnSecurity config, the Sysmon to Wazuh pipeline was healthy, the chain from initial shell to credential dumping was visible in alerts, and Wazuh was correctly mapping Level 15 events to MITRE ATT&amp;CK
+                    techniques.
+                </p>
+                <figure>
+                    <img src="assets/images/attack-13-final-wrap-up.png" alt="Final wrap up" />
+                </figure>
+            </section>
+
+            <section id="detections">
+                <h2>Blue Team Detections</h2>
+
+                <p>
+                    With attacks generating real alerts, the next step was making the queue easier to read.
+                </p>
+
+                <h3>The Problem with Rule 92200</h3>
+                <p>
+                    The default rule 92200 triggers on any registry modification across a wide range of paths and carries no process context. It fires on <code>GoogleUpdate.exe</code> writing its update key the same way it fires on <code>powershell.exe -enc &lt;payload&gt;</code>                    writing a backdoor to the Run key, so both end up looking identical in the alert feed. The result is sustained false-positive volume that trains analysts to ignore the queue, which is exactly the environment a persistence technique
+                    is designed to exploit.
+                </p>
+
+                <h3>Custom Rule Chain: 100100 &rarr; 100101 &rarr; 100102</h3>
+                <p>
+                    I replaced that single broad rule with a three-rule chain that layers specificity and severity:
+                </p>
+                <pre><code>&lt;group name="windows,registry,persistence,"&gt;
+
+  &lt;!-- Stage 1: Narrow scope to Run key only --&gt;
+  &lt;rule id="100100" level="10"&gt;
+    &lt;if_sid&gt;92302&lt;/if_sid&gt;
+    &lt;description&gt;Registry Run key modification detected ($(win.eventdata.targetObject))&lt;/description&gt;
+    &lt;mitre&gt;&lt;id&gt;T1547.001&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+
+  &lt;!-- Stage 2: Escalate if written by a LOLBin --&gt;
+  &lt;rule id="100101" level="13"&gt;
+    &lt;if_sid&gt;100100&lt;/if_sid&gt;
+    &lt;field name="win.eventdata.image" type="pcre2"&gt;
+      (?i)(powershell|cmd|wscript|cscript|mshta|regsvr32|rundll32|certutil|bitsadmin|wmic)\.exe$
+    &lt;/field&gt;
+    &lt;description&gt;High-confidence persistence: Run key written by LOLBin ($(win.eventdata.image))&lt;/description&gt;
+    &lt;group&gt;high_confidence,persistence,lolbin&lt;/group&gt;
+    &lt;mitre&gt;&lt;id&gt;T1547.001&lt;/id&gt;&lt;id&gt;T1218&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+
+  &lt;!-- Stage 3: Suppress known-good lab processes --&gt;
+  &lt;rule id="100102" level="0"&gt;
+    &lt;if_sid&gt;100100&lt;/if_sid&gt;
+    &lt;field name="win.eventdata.image" type="pcre2"&gt;(?i)(SecurityHealthSystray|VBoxTray)\.exe$&lt;/field&gt;
+    &lt;description&gt;Suppressed: known-good process writing Run key&lt;/description&gt;
+  &lt;/rule&gt;
+
+&lt;/group&gt;</code></pre>
+
+                <p>
+                    Rule 100100 narrows scope from "any registry write" to "writes targeting the Run key specifically," jumping the severity from Level 7 to Level 10. That alone cuts most of the noise from unrelated registry activity. Rule 100101 then evaluates whether the
+                    writing process is a LOLBin, a legitimate Windows binary commonly abused to evade detection. If <code>powershell.exe</code>, <code>cmd.exe</code>, <code>mshta.exe</code>, or any of the other listed binaries is the
+                    author, the alert escalates to Level 13 and is tagged with both T1547.001 (Run key persistence) and T1218 (signed binary proxy execution). Legitimate software installers do not typically write to the Run key via PowerShell. That process
+                    pairing is nearly always malicious, which is what makes this a high-confidence alert rather than another queue item to dismiss.
+                </p>
+                <figure>
+                    <img src="assets/images/detections-03-custom-rule.png" alt="Custom rule chain" />
+                </figure>
+
+                <p>
+                    Rule 100102 handles the suppression side. During testing, two processes consistently triggered 100100 without being malicious: <code>VBoxTray.exe</code> (VirtualBox guest additions) and <code>SecurityHealthSystray.exe</code> (Windows
+                    Security Center tray). Both write to the Run key at startup as expected behavior for this lab environment. By setting their rule to Level 0, they are silenced before they can generate an alert, keeping the queue clean without weakening
+                    the detection logic for anything else.
+                </p>
+                <figure>
+                    <img src="assets/images/detections-04-suppression-rule.png" alt="Suppression rule 100102" />
+                </figure>
+
+                <h3>Gap: PowerShell .NET Registry Writes</h3>
+                <p>
+                    The 92302 &rarr; 100100 &rarr; 100101 chain depends on Sysmon capturing EID 13 (registry value set). The problem is that PowerShell's <code>New-ItemProperty</code> cmdlet hits the registry through the .NET stack, bypassing the Win32
+                    <code>RegSetValueEx</code> API that Sysmon monitors. The result is that EID 13 either does not fire, or fires on a different event path that breaks the detection chain entirely. An attacker using this technique would only surface a
+                    generic Level 15 PowerShell alert (Rule 92213) instead of the targeted persistence trigger, so the alert queue gets an event but nothing that identifies Run key persistence specifically.
+                </p>
+                <p>
+                    The fix is a secondary rule that monitors PowerShell Script Block Logging (EID 4104) for strings containing the Run key path. Script Block Logging captures the actual PowerShell commands before they execute, regardless of which API they call underneath
+                    so it catches this bypass where the Sysmon path cannot:
+                </p>
+                <pre><code>&lt;!-- Proposed: catch PowerShell .NET Run key writes via Script Block Logging --&gt;
+&lt;rule id="100103" level="13"&gt;
+  &lt;if_sid&gt;92213&lt;/if_sid&gt;
+  &lt;field name="win.eventdata.scriptBlockText" type="pcre2"&gt;
+    (?i)CurrentVersion\\Run
+  &lt;/field&gt;
+  &lt;description&gt;PowerShell Script Block contains Run key path - possible .NET persistence bypass&lt;/description&gt;
+  &lt;group&gt;high_confidence,persistence,lolbin&lt;/group&gt;
+  &lt;mitre&gt;&lt;id&gt;T1547.001&lt;/id&gt;&lt;/mitre&gt;
+&lt;/rule&gt;</code></pre>
+
+                <p>
+                    This rule sits alongside the existing chain rather than replacing it. The Sysmon path (100100 &rarr; 100101) handles the standard Win32 API case; rule 100103 handles the .NET bypass case. Together they close the gap without touching the logic that already
+                    works.
+                </p>
+            </section>
+
+            <section id="future">
+                <h2>What I'd Do Next</h2>
+                <ul>
+                    <li>
+                        <strong>Deploy rule 100103</strong> - Implement the Script Block Logging rule described above and validate it fires correctly against a <code>New-ItemProperty</code> test write before treating the gap as closed.
+                    </li>
+                    <li>
+                        <strong>Active Response</strong> - Configure Wazuh's active response module to automatically isolate the endpoint or terminate a suspicious process when a Level 12+ alert fires, rather than relying on manual triage.
+                    </li>
+                    <li>
+                        <strong>Lateral movement simulation</strong> - Add a second Windows VM and test pass-the-hash using the NTLM hash recovered via Mimikatz, then verify Wazuh detects the authentication anomaly across hosts.
+                    </li>
+                    <li>
+                        <strong>Alert fatigue baseline</strong> - Run the lab idle for 24 hours and document the background alert rate to better understand the noise floor before tuning thresholds further.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="response">
+                <h2>Next Pages</h2>
+
+                <div class="series-grid">
+                    <a class="series-card" href="incident-response.html">
+                        <span class="series-label">Page 01</span>
+                        <strong>Incident Response</strong>
+                    </a>
+                    <a class="series-card" href="analyst-playbook.html">
+                        <span class="series-label">Page 02</span>
+                        <strong>Analyst Playbook</strong>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

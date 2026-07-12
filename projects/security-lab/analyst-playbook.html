@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analyst Playbook | Security Lab Portfolio</title>
+    <meta name="description" content="Analyst playbook and investigation workflow for the security lab portfolio." />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="navbar-logo" href="../../index.html" aria-label="Home">
+            <img src="../../logo.png" alt="Jorge Valdez" />
+        </a>
+        <ul class="navbar-links">
+            <li><a href="index.html">Security Lab</a></li>
+            <li><a href="incident-response.html">Incident Response</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-wrapper" id="top">
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <div class="sidebar-label">Analyst Playbook</div>
+                <ul class="toc">
+                    <li><a href="#summary">Overview</a></li>
+                    <li><a href="#first-checks">First Checks</a></li>
+                    <li><a href="#evidence">Evidence Collection</a></li>
+                    <li><a href="#escalation">Escalation Criteria</a></li>
+                    <li><a href="#followup">Follow-up</a></li>
+                    <li><a href="#workflow">Response Workflow</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="page-head">
+                <div class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span>Analyst Playbook</span>
+                </div>
+
+                <div class="headline">
+                <div class="headline-copy">
+                    <p class="eyebrow">Playbook report</p>
+                    <h1 class="post-title">IR Workflow</h1>
+                    <p class="post-author">Author: Jorge Valdez</p>
+                    <p class="headline-text">
+                        A repeatable investigation flow for validating alerts, gathering evidence, and deciding when to escalate or close a case.
+                    </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-meta">
+                <span>Analyst guidance</span>
+                <span class="post-meta-sep">&middot;</span>
+                <span>Investigation steps, evidence handling, and escalation notes</span>
+            </div>
+
+            <section id="summary">
+                <h2>Overview</h2>
+                <div class="callout callout--info">
+                    <span class="callout-label">Purpose</span>
+                    <p>
+                        The playbook keeps the investigation consistent. It tells the analyst what to check first, what to preserve, and when a case should move up the chain.
+                    </p>
+                </div>
+                <p>
+                    This page turns the incident response process into a repeatable workflow. The goal is to reduce guesswork during triage, preserve the evidence that matters, and make escalation decisions based on observable signals rather than instinct alone.
+                </p>
+                <p>
+                    The steps below are designed to work with the same Wazuh, Sysmon, and Windows telemetry used throughout the lab.
+                </p>
+            </section>
+
+            <section id="first-checks">
+                <h2>First Checks</h2>
+                <p>
+                    Start with the alert source, host, user, time, and the process or command data around the event. That gives immediate context before deeper digging begins.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>What to Verify</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Alert source</td>
+                            <td>Confirm whether the event came from Wazuh, Sysmon, Windows Security, or another sensor.</td>
+                        </tr>
+                        <tr>
+                            <td>Host</td>
+                            <td>Check the endpoint name, IP address, and whether the machine is part of the lab's expected scope.</td>
+                        </tr>
+                        <tr>
+                            <td>User</td>
+                            <td>Note which account was active and whether it matches the expected behavior for that host.</td>
+                        </tr>
+                        <tr>
+                            <td>Process</td>
+                            <td>Look at the parent-child chain and whether the process path is normal for the activity reported.</td>
+                        </tr>
+                        <tr>
+                            <td>Time</td>
+                            <td>Anchor the event to a timestamp so related logs can be pulled before and after the alert.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout callout--warn">
+                    <span class="callout-label">Triage rule</span>
+                    <p>
+                        If the alert involves a privileged account, a registry persistence path, LSASS access, or a reverse shell pattern, treat it as potentially malicious until the evidence says otherwise.
+                    </p>
+                </div>
+            </section>
+
+            <section id="evidence">
+                <h2>Evidence Collection</h2>
+                <p>
+                    Keep the process simple. Save the logs, note the timeline, and collect the data that proves why the alert fired.
+                </p>
+                <ul>
+                    <li>Preserve the triggering alert and any closely related events from the same minute.</li>
+                    <li>Capture parent and child processes, command lines, and hashes when available.</li>
+                    <li>Export relevant Sysmon events, especially EID 1, 3, 11, 13, and 4104 when PowerShell is involved.</li>
+                    <li>Record the user context, affected host, and any registry or file paths tied to the activity.</li>
+                </ul>
+                <p>
+                    For this lab, the most useful evidence usually includes a process chain, a file drop, a registry write, and any authentication activity that happened around the same time.
+                </p>
+            </section>
+
+            <section id="escalation">
+                <h2>Escalation Criteria</h2>
+                <p>
+                    Escalate when the activity matches a known attack pattern, repeats across multiple events, or affects more than one system.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Signal</th>
+                            <th>Why It Matters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Registry Run key writes from scripting tools</td>
+                            <td>Often indicates persistence, especially when tied to PowerShell, cmd, or another LOLBin.</td>
+                        </tr>
+                        <tr>
+                            <td>LSASS access or credential dumping</td>
+                            <td>Raises the likelihood of impact beyond simple execution and suggests hands-on-keyboard activity.</td>
+                        </tr>
+                        <tr>
+                            <td>Suspicious service creation or privilege escalation</td>
+                            <td>Shows the actor is attempting to move from user-level access to deeper control of the host.</td>
+                        </tr>
+                        <tr>
+                            <td>Multiple alerts in a short window</td>
+                            <td>Correlated events are easier to defend than isolated noise and usually deserve a closer look.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    In this lab, escalation is especially warranted if the event maps to T1547.001, T1003.001, or a related attack chain that includes initial access, execution, and persistence.
+                </p>
+            </section>
+
+            <section id="followup">
+                <h2>Follow-up</h2>
+                <p>
+                    Close the loop by updating notes, tuning rules if needed, and recording what should change next time.
+                </p>
+                <ul>
+                    <li>Document the final verdict clearly: benign, suspicious, confirmed malicious, or false positive.</li>
+                    <li>Record any tuning changes, suppression logic, or follow-on detections that should be added.</li>
+                    <li>Capture recommended containment or recovery steps if the alert represents a real threat.</li>
+                    <li>Keep the case notes short enough that another analyst can pick up the thread quickly.</li>
+                </ul>
+            </section>
+
+            <section id="workflow">
+                <h2>Response Workflow</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Action</th>
+                            <th>Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Validate</td>
+                            <td>Confirm the alert is real and not a noisy test or normal admin action.</td>
+                            <td>A trusted starting point for the investigation.</td>
+                        </tr>
+                        <tr>
+                            <td>2. Scope</td>
+                            <td>Check nearby logs, related alerts, and the process chain leading into the event.</td>
+                            <td>A clearer picture of what happened before and after.</td>
+                        </tr>
+                        <tr>
+                            <td>3. Preserve</td>
+                            <td>Save the relevant telemetry before it rolls off or gets overwritten.</td>
+                            <td>Evidence that can support analysis or reporting.</td>
+                        </tr>
+                        <tr>
+                            <td>4. Decide</td>
+                            <td>Determine whether to escalate, contain, or close based on the evidence.</td>
+                            <td>A documented and defensible case outcome.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="post-nav">
+                <a href="index.html">Back to Security Lab</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

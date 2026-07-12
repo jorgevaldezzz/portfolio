@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog &middot; Jorge Valdez</title>
+<meta name="description" content="Blog index for Jorge Valdez's project writeups and security lab notes." />
+<link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar-logo" href="../index.html" aria-label="Home">
+    <img src="../logo.png" alt="Jorge Valdez" />
+  </a>
+  <ul class="navbar-links">
+    <li><a href="../index.html">Home</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrapper" id="top">
+  <aside class="sidebar">
+    <div class="sidebar-sticky">
+      <div class="sidebar-label">Blog Index</div>
+      <ul class="toc">
+        <li><a href="#featured">Featured Post</a></li>
+        <li><a href="#archive">Archive</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="page-head">
+      <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>Blog</span>
+      </div>
+
+      <div class="headline">
+        <div class="headline-copy">
+          <p class="eyebrow">Blog</p>
+          <h1 class="post-title">Project Writeups</h1>
+        </div>
+        <div class="headline-links">
+          <a class="post-tag" href="#featured">Featured</a>
+          <a class="post-tag" href="#archive">Archive</a>
+          <a class="post-tag" href="../projects/security-lab/index.html">Security Lab</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-meta">
+      <span>1 published post</span>
+      <span class="post-meta-sep">&middot;</span>
+      <span>Security Lab, detection engineering, incident response</span>
+      <span class="post-meta-sep">&middot;</span>
+      <span>June 14, 2026</span>
+    </div>
+
+    <hr class="post-divider" />
+
+    <section id="featured">
+      <h2>Featured Post</h2>
+      <a class="post-list-item is-pinned" href="../projects/security-lab/index.html">
+        <div class="post-list-meta-row">
+          <span class="post-list-pin">&#9733; Latest</span>
+          <span class="post-list-tag">Security Lab</span>
+          <span class="post-list-tag">Detection Engineering</span>
+        </div>
+        <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+        <p class="post-list-snippet">
+          A full kill chain simulation across three VMs, with custom Wazuh
+          detection rules, an incident report, and a gap analysis of what the
+          default rules missed.
+        </p>
+      </a>
+
+      <figure>
+        <img src="../projects/security-lab/assets/images/banner-home.png" alt="Security lab banner preview" />
+      </figure>
+    </section>
+
+    <section id="archive">
+      <h2>Archive</h2>
+      <ul class="post-list">
+        <li>
+          <a class="post-list-item" href="../projects/security-lab/index.html">
+            <div class="post-list-meta-row">
+              <span class="post-list-tag">Security Lab</span>
+              <span class="post-list-tag">June 14, 2026</span>
+            </div>
+            <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+            <p class="post-list-snippet">
+              Reverse shell delivery, persistence, credential dumping, and
+              response notes from the lab build.
+            </p>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Jorge Valdez.</p>
+</footer>
+
+</body>
+</html>

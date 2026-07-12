@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About &middot; Jorge Valdez</title>
+<meta name="description" content="Jorge Valdez is a Georgia Tech computer science student focused on cybersecurity, embedded systems, and software engineering." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar-logo" href="index.html" aria-label="Home">
+    <img src="logo.png" alt="Jorge Valdez" />
+  </a>
+  <ul class="navbar-links">
+    <li><a href="blog/index.html">Blog</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrapper" id="top">
+  <aside class="sidebar">
+    <div class="sidebar-sticky">
+      <div class="sidebar-label">On This Page</div>
+      <ul class="toc">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="page-head">
+      <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>About</span>
+      </div>
+      <div class="headline">
+        <div class="headline-copy">
+          <p class="eyebrow">About</p>
+          <h1 class="post-title">Jorge Valdez</h1>
+          <p class="post-author">Computer Science Student, Georgia Tech</p>
+          <p class="headline-text">
+            I build software with an eye toward how it behaves under real
+            conditions, and I spend most of my time at the intersection of
+            cybersecurity, embedded systems, and low-level computing.
+          </p>
+        </div>
+        <div class="headline-links">
+          <a class="post-tag" href="resume.png" download>Resume</a>
+          <a class="post-tag" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-meta">
+      <span>Cybersecurity</span>
+      <span class="post-meta-sep">&middot;</span>
+      <span>Embedded Systems</span>
+      <span class="post-meta-sep">&middot;</span>
+      <span>Software Engineering</span>
+    </div>
+
+    <hr class="post-divider" />
+
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        I'm drawn to work that sits close to how systems actually behave,
+        rather than stopping at the surface of what they're supposed to do.
+        That shows up in how I approach software: I want to understand how
+        it's structured, how it holds up under real or adversarial
+        conditions, and where reliability and security stop being
+        assumptions and start being decisions someone has to make.
+      </p>
+      <p>
+        Most of my project work traces back to that interest. I care about
+        clear implementation over clever implementation, documentation that
+        actually explains a decision instead of just describing it, and
+        treating a project as something to iterate on rather than finish
+        once and walk away from. That last part matters more than it
+        sounds &mdash; a lot of what I've learned came from going back into a
+        working project and asking why a specific choice held up or didn't.
+      </p>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <p>
+        Most of what I know so far has come from three overlapping sources:
+        coursework, independent projects, and writing things down publicly
+        as I go.
+      </p>
+      <h3>Georgia Tech, Computer Science</h3>
+      <p>
+        My coursework is centered on cybersecurity, embedded systems, and
+        the software fundamentals that underpin both &mdash; the kind of
+        material that's less about a specific language and more about how
+        computing systems are put together.
+      </p>
+      <h3>Independent Project Work</h3>
+      <p>
+        Outside of class, I build personal and team projects specifically
+        to get repetitions on implementation, architecture, and deployment
+        &mdash; the parts of software engineering that coursework alone
+        doesn't force you to practice. See the <a href="index.html">home
+        page</a> for the running list.
+      </p>
+      <h3>Security Writeups</h3>
+      <p>
+        I keep a public repository of CTF writeups so that solving a
+        challenge isn't the end of the exercise. Writing up the approach,
+        what didn't work first, and why the eventual solution held is where
+        most of the actual learning gets locked in.
+      </p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <p>
+        These are the areas I keep coming back to, whether the entry point
+        is a class, a CTF, or a side project.
+      </p>
+      <h3>Core Interests</h3>
+      <div class="chip-row">
+        <span class="chip">Cybersecurity</span>
+        <span class="chip">Embedded Systems</span>
+        <span class="chip">Computer Architecture</span>
+        <span class="chip">Low-level Programming</span>
+      </div>
+      <h3>Build Stack</h3>
+      <div class="chip-row">
+        <span class="chip">Python</span>
+        <span class="chip">Django</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML / CSS</span>
+      </div>
+      <h3>Working Style</h3>
+      <div class="chip-row">
+        <span class="chip">Problem Solving</span>
+        <span class="chip">Systems Thinking</span>
+        <span class="chip">Documentation</span>
+        <span class="chip">Iterative Refinement</span>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>
+        A few smaller projects, alongside the <a href="index.html">security
+        lab writeup</a> on the home page.
+      </p>
+
+      <div class="project-entry">
+        <h3>Chess Web App</h3>
+        <p class="project-stack">Python &middot; JavaScript &middot; HTML &middot; CSS</p>
+        <p>
+          A multi-phase chess application built to practice full-stack
+          development, from game logic to a deployed browser interface.
+        </p>
+        <div class="project-links">
+          <a href="https://jorgevaldezzz.github.io/chess-project/" target="_blank" rel="noreferrer">Live Site</a>
+          <a href="https://github.com/jorgevaldezzz/chess-project" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+
+      <div class="project-entry">
+        <h3>BridgeOut</h3>
+        <p class="project-stack">Python &middot; Django &middot; HTML &middot; CSS</p>
+        <p>
+          A team-based web application where the real challenge was
+          software design and coordinating changes across a shared
+          codebase.
+        </p>
+        <div class="project-links">
+          <a href="https://abdillahvanorden.pythonanywhere.com" target="_blank" rel="noreferrer">Live Site</a>
+          <a href="https://github.com/Books4life01/CS2340-Group3-Project2" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+
+      <div class="project-entry">
+        <h3>Movie Store Project</h3>
+        <p class="project-stack">Python &middot; Django &middot; HTML &middot; CSS</p>
+        <p>
+          A project built around object-oriented design first, aimed at a
+          modular, maintainable structure rather than just a working store.
+        </p>
+        <div class="project-links">
+          <a href="https://jorgevaldez.pythonanywhere.com" target="_blank" rel="noreferrer">Live Site</a>
+          <a href="https://github.com/jorgevaldezzz/Movie-Store" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+
+      <p>
+        <a href="https://github.com/jorgevaldezzz/ctf-writeups" target="_blank" rel="noreferrer">CTF Writeups &rarr;</a>
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        The best ways to reach me are below, or through the resume link at
+        the top of the page.
+      </p>
+      <div class="project-links">
+        <a href="mailto:valdezjorge841@gmail.com">valdezjorge841@gmail.com</a>
+        <a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">github.com/jorgevaldezzz</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Jorge Valdez.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

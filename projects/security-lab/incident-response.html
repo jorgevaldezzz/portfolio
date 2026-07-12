@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Incident Response | Security Lab Portfolio</title>
+    <meta
+      name="description"
+      content="Incident report and response notes for the security lab portfolio."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="navbar-logo" href="../../index.html" aria-label="Home">
+        <img src="../../logo.png" alt="Jorge Valdez" />
+      </a>
+      <ul class="navbar-links">
+        <li><a href="index.html">Security Lab</a></li>
+        <li><a href="analyst-playbook.html">Playbook</a></li>
+      </ul>
+    </nav>
+
+    <div class="page-wrapper" id="top">
+      <aside class="sidebar">
+        <div class="sidebar-sticky">
+          <div class="sidebar-label">Incident Report</div>
+          <ul class="toc">
+            <li><a href="#summary">Executive Summary</a></li>
+            <li><a href="#timeline">Attack Timeline</a></li>
+            <li><a href="#narrative">Attack Narrative</a></li>
+            <li><a href="#iocs">Indicators of Compromise</a></li>
+            <li><a href="#mitre">MITRE Coverage</a></li>
+            <li><a href="#notes">Detection Notes</a></li>
+            <li><a href="#recommendations">Recommendations</a></li>
+            <li><a href="#appendix">Appendix</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="page-head">
+          <div class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>Incident Response</span>
+          </div>
+
+          <div class="headline">
+            <div class="headline-copy">
+              <p class="eyebrow">Incident report</p>
+              <h1 class="post-title">IR-2026-001</h1>
+              <p class="post-author">Author: Jorge Valdez</p>
+              <p class="headline-text">
+                Controlled red team exercise covering reverse shell delivery, privilege escalation, credential dumping,
+                and registry-based persistence on a Windows endpoint.
+              </p>
+            </div>
+            <div class="headline-links">
+              <a class="post-tag" href="#summary">Summary</a>
+              <a class="post-tag" href="#timeline">Timeline</a>
+              <a class="post-tag" href="#iocs">IOCs</a>
+              <a class="post-tag" href="#recommendations">Recommendations</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-meta">
+          <span>Opened 2026-06-05 21:00 UTC</span>
+          <span class="post-meta-sep">&middot;</span>
+          <span>Closed 2026-06-06 02:00 UTC</span>
+        </div>
+
+        <section id="summary">
+          <h2>Executive Summary</h2>
+          <div class="callout callout--info">
+            <span class="callout-label">Case details</span>
+            <p>
+              Severity: HIGH. Status: Remediated. Affected host: WIN-NB2M2FMS8NC (10.0.0.20). Affected user:
+              WIN-NB2M2FMS8NC\Administrator. MITRE TTPs: T1059, T1547.001, T1055, T1003.001.
+            </p>
+          </div>
+          <p>
+            On June 5, 2026, a controlled red team exercise simulated a full attack chain against host
+            WIN-NB2M2FMS8NC. The exercise demonstrated reverse shell delivery via Metasploit, privilege escalation
+            with <code>getsystem</code>, credential extraction from LSASS using Mimikatz, and persistence through a
+            registry Run key pointing to a staged payload at <code>C:\Users\Public\shell.exe</code>.
+          </p>
+          <p>
+            Detection validation confirmed that custom Wazuh rule 100100 correctly identified the Run key
+            modification at severity level 10. Default rule 92302 also triggered. Analysis identified a detection
+            gap for PowerShell-based registry writes, which bypass Sysmon EID 13 and are covered later in this
+            report.
+          </p>
+          <p>
+            There was no evidence of lateral movement. All artifacts were purged and affected credentials were reset
+            at the end of the exercise.
+          </p>
+        </section>
+
+        <section id="timeline">
+          <h2>Attack Timeline</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Time (UTC)</th>
+                <th>Event</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>~21:00</td>
+                <td>Lab setup</td>
+                <td>Metasploit listener initialized on port 4444. x64 Meterpreter reverse TCP payload staged via HTTP.</td>
+              </tr>
+              <tr>
+                <td>~21:10</td>
+                <td>Initial access</td>
+                <td>Payload executed by the Administrator account. Meterpreter session established. Sysmon EID 1 and 11 logged.</td>
+              </tr>
+              <tr>
+                <td>~21:15</td>
+                <td>Privilege escalation</td>
+                <td>Successful escalation to SYSTEM via <code>getsystem</code>. Anomalous <code>svchost.exe</code> activity triggered Wazuh rule 61618 (Level 12).</td>
+              </tr>
+              <tr>
+                <td>~21:20</td>
+                <td>Credential dump</td>
+                <td>Mimikatz dump of LSASS memory. NTLM hash extracted for Administrator: <code>ce4dfd1b90d524da79964354016ff97f</code>.</td>
+              </tr>
+              <tr>
+                <td>2026-06-06 01:21:03</td>
+                <td>Persistence written</td>
+                <td><code>reg.exe</code> added the <code>Updater</code> value to the HKCU Run key, referencing <code>C:\Users\Public\shell.exe</code>. Sysmon EID 13 logged.</td>
+              </tr>
+              <tr>
+                <td>2026-06-06 01:21:10</td>
+                <td>Alert fired</td>
+                <td>Default rule 92302 and custom rule 100100 triggered together. Verification of custom alerting was successful.</td>
+              </tr>
+              <tr>
+                <td>~02:00</td>
+                <td>Remediation</td>
+                <td>Registry persistence deleted. Disk artifacts removed. Account credentials rotated. Exercise terminated.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="narrative">
+          <h2>Attack Narrative</h2>
+
+          <h3>Initial Access and Payload Delivery</h3>
+          <p>
+            The simulation began with the delivery of a 64-bit Meterpreter payload to the target VM. When executed by
+            the Administrator, a persistent reverse connection was established to the attacker's listener. This phase
+            was logged by Sysmon through process and file creation events.
+          </p>
+
+          <h3>Privilege Escalation</h3>
+          <p>
+            Using the established session, the operative ran <code>getsystem</code> to obtain SYSTEM-level authority.
+            The technique involved spawning a malicious service host process, which was detected by Wazuh and mapped
+            to MITRE T1050.
+          </p>
+
+          <h3>Credential Dumping</h3>
+          <p>
+            With elevated privileges, the adversary performed memory forensics on LSASS. The resulting NTLM hash for
+            the Administrator account was successfully harvested. While plaintext credentials were not captured due to
+            modern Windows security defaults, the obtained hash is sufficient for Pass-the-Hash authentication.
+          </p>
+
+          <h3>Persistence - Registry Run Key</h3>
+          <p>
+            To maintain access, the adversary modified the HKCU registry hive using <code>reg.exe</code>. By creating
+            an <code>Updater</code> value within the Run key, the malicious executable was configured to launch
+            automatically upon user login, aligning with MITRE T1547.001.
+          </p>
+          <p>
+            This modification generated a Sysmon RegistryEvent (EID 13). Custom Wazuh rule 100100 prioritized the
+            event as level 10, providing higher visibility and specific MITRE tagging compared to the standard alert.
+          </p>
+        </section>
+
+        <section id="iocs">
+          <h2>Indicators of Compromise</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Registry key</td>
+                <td><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Updater</code></td>
+              </tr>
+              <tr>
+                <td>Payload path</td>
+                <td><code>C:\Users\Public\shell.exe</code></td>
+              </tr>
+              <tr>
+                <td>Payload SHA256</td>
+                <td><code>EA997CA708E2738DE3536CD6F5B477DDB7C4A5C0C36BECCC78931470B1E3A9F6</code></td>
+              </tr>
+              <tr>
+                <td>NTLM hash</td>
+                <td><code>ce4dfd1b90d524da79964354016ff97f</code></td>
+              </tr>
+              <tr>
+                <td>C2 address</td>
+                <td><code>10.0.0.30:4444</code> (attacker host)</td>
+              </tr>
+              <tr>
+                <td>Writing process</td>
+                <td><code>C:\Windows\system32\reg.exe</code> (PID 4616)</td>
+              </tr>
+              <tr>
+                <td>Affected user</td>
+                <td><code>WIN-NB2M2FMS8NC\Administrator</code></td>
+              </tr>
+              <tr>
+                <td>Sysmon EID 13 time</td>
+                <td><code>2026-06-06 01:21:03.437 UTC</code></td>
+              </tr>
+              <tr>
+                <td>Wazuh alert ID</td>
+                <td><code>1780708870.293657</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="mitre">
+          <h2>MITRE ATT&amp;CK Coverage</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Technique</th>
+                <th>ID</th>
+                <th>Detected</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Command and Scripting Interpreter</td>
+                <td>T1059</td>
+                <td>Yes</td>
+                <td>Wazuh alert fired</td>
+              </tr>
+              <tr>
+                <td>Boot/Logon Autostart - Run Keys</td>
+                <td>T1547.001</td>
+                <td>Yes</td>
+                <td>Wazuh alert fired</td>
+              </tr>
+              <tr>
+                <td>New Service / Privilege Escalation</td>
+                <td>T1050 / T1055</td>
+                <td>Yes</td>
+                <td>Wazuh alert fired</td>
+              </tr>
+              <tr>
+                <td>OS Credential Dumping (LSASS)</td>
+                <td>T1003.001</td>
+                <td>Yes</td>
+                <td>Wazuh alert fired</td>
+              </tr>
+              <tr>
+                <td>Pass-the-Hash (simulated only)</td>
+                <td>T1550.002</td>
+                <td>No</td>
+                <td>Detection gap - see findings</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="notes">
+          <h2>Detection Engineering Notes</h2>
+
+          <h3>Custom Rule Performance</h3>
+          <p>
+            Validation confirms that rule 100100 (Level 10) provides effective detection for
+            <code>reg.exe</code>-based persistence. Rule 100101, designed for LOLBin process matching, remains active
+            but was not triggered by the specific execution flow used in this scenario.
+          </p>
+
+          <h3>Detection Gap - PowerShell Registry Writes</h3>
+          <div class="callout callout--warn">
+            <span class="callout-label">Gap identified</span>
+            <p>
+              When using PowerShell's <code>New-ItemProperty</code> cmdlet, no standard Sysmon EID 13 event was
+              generated. As a result, the persistence-specific custom rules were bypassed, and the activity was only
+              captured by generic PowerShell monitoring.
+            </p>
+          </div>
+          <p>
+            This happens because PowerShell interacts with the registry through the .NET framework, bypassing the
+            specific Win32 API calls monitored by Sysmon for EID 13.
+          </p>
+          <p>
+            The gap allows an adversary to establish persistence without triggering targeted registry alerts, though
+            broader PowerShell execution alerts may still fire without technical context.
+          </p>
+          <p>
+            Recommendation: implement supplementary monitoring for Windows Event ID 4104 (PowerShell Script Block
+            Logging). New rules should be authored to detect registry path strings within script content.
+          </p>
+
+          <h3>Rule Suppression Tuning</h3>
+          <p>
+            Rule 100102 was implemented to filter legitimate environmental activity. Baseline audits identified the
+            following approved processes:
+          </p>
+          <ul>
+            <li><code>VBoxTray.exe</code> - VirtualBox guest additions tray process</li>
+            <li><code>SecurityHealthSystray.exe</code> - Windows Security Center tray icon</li>
+          </ul>
+        </section>
+
+        <section id="recommendations">
+          <h2>Recommendations</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Recommendation</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>R1</td>
+                <td>Enable Credential Guard</td>
+                <td>
+                  The Mimikatz credential dump succeeded because LSASS was unprotected. Windows Credential Guard
+                  (requires UEFI + Hyper-V) prevents plaintext credential extraction from LSASS memory.
+                </td>
+              </tr>
+              <tr>
+                <td>R2</td>
+                <td>Restrict PowerShell execution</td>
+                <td>
+                  Enable PowerShell Script Block Logging and Constrained Language Mode for non-admin users via GPO to
+                  limit payload delivery and registry manipulation via PowerShell.
+                </td>
+              </tr>
+              <tr>
+                <td>R3</td>
+                <td>Supplement Run key detection for PowerShell</td>
+                <td>
+                  Author a Wazuh rule chaining off Windows Event ID 4104, matching <code>CurrentVersion\Run</code> in
+                  script content, to close the detection gap identified above.
+                </td>
+              </tr>
+              <tr>
+                <td>R4</td>
+                <td>Quarterly suppression review</td>
+                <td>
+                  Rule 100102 suppresses known-good updaters. Review the suppression list quarterly as the software
+                  inventory changes.
+                </td>
+              </tr>
+              <tr>
+                <td>R5</td>
+                <td>Restrict public staging directories</td>
+                <td>
+                  The payload was staged at <code>C:\Users\Public\shell.exe</code>. AppLocker or WDAC should deny
+                  execution from <code>C:\Users\Public\</code> and other world-writable directories.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="appendix">
+          <h2>Appendix - Custom Wazuh Rules</h2>
+          <p>
+            The following custom rules are implemented within the Wazuh manager configuration to enhance detection
+            for the techniques demonstrated in this report.
+          </p>
+          <pre data-filename="custom-wazuh-rules.xml"><code>&lt;group name="windows,registry,persistence,"&gt;
+
+  &lt;!-- Rule 100100: Base persistence detection --&gt;
+  &lt;!-- Chains off 92302 (reg.exe Run key write confirmed) --&gt;
+  &lt;!-- Elevates severity from level 6 to level 10 --&gt;
+  &lt;rule id="100100" level="10"&gt;
+    &lt;if_sid&gt;92302&lt;/if_sid&gt;
+    &lt;description&gt;Registry Run key modification detected
+      ($(win.eventdata.targetObject))&lt;/description&gt;
+    &lt;mitre&gt;&lt;id&gt;T1547.001&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+
+  &lt;!-- Rule 100101: LOLBin process match (elevated severity) --&gt;
+  &lt;!-- Fires when a living-off-the-land binary writes the Run key --&gt;
+  &lt;rule id="100101" level="13"&gt;
+    &lt;if_sid&gt;100100&lt;/if_sid&gt;
+    &lt;field name="win.eventdata.image" type="pcre2"&gt;
+      (?i)(powershell|cmd|wscript|cscript|mshta|
+      regsvr32|rundll32|certutil|bitsadmin|wmic)\.exe$
+    &lt;/field&gt;
+    &lt;description&gt;High-confidence persistence: Run key written
+      by LOLBin ($(win.eventdata.image))&lt;/description&gt;
+    &lt;group&gt;high_confidence,persistence,lolbin&lt;/group&gt;
+    &lt;mitre&gt;&lt;id&gt;T1547.001&lt;/id&gt;&lt;id&gt;T1218&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+
+  &lt;!-- Rule 100102: Suppression for known-good processes --&gt;
+  &lt;!-- Tuned based on observed Run key writes in this environment --&gt;
+  &lt;rule id="100102" level="0"&gt;
+    &lt;if_sid&gt;100100&lt;/if_sid&gt;
+    &lt;field name="win.eventdata.image" type="pcre2"&gt;
+      (?i)(SecurityHealthSystray|VBoxTray)\.exe$
+    &lt;/field&gt;
+    &lt;description&gt;Suppressed: known-good process writing Run key&lt;/description&gt;
+  &lt;/rule&gt;
+
+&lt;/group&gt;</code></pre>
+        </section>
+
+        <div class="post-nav">
+          <a href="index.html">Back to Security Lab</a>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
