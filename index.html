@@ -5,13 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jorge Valdez</title>
 <meta name="description" content="Jorge Valdez is a Georgia Tech computer science student focused on cybersecurity, embedded systems, and software engineering." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <nav class="navbar">
   <a class="navbar-logo" href="index.html" aria-label="Home">
-    <img src="logo.png" alt="Jorge Valdez" />
+    <img src="logo.png" alt="" />
+    <span class="navbar-wordmark">Jorge Valdez</span>
   </a>
   <ul class="navbar-links">
     <li><a href="index.html">Home</a></li>
@@ -21,78 +25,77 @@
   </ul>
 </nav>
 
-<div class="page-wrapper" id="top">
-  <main class="content" style="width: 100%; max-width: var(--content-w); margin: 0 auto;">
-    <div class="page-head">
-      <div class="headline">
-        <div class="headline-copy">
-          <p class="eyebrow">Portfolio</p>
-          <h1 class="post-title">Jorge Valdez</h1>
-          <p class="post-author">Computer Science Student, Georgia Tech</p>
-          <p class="headline-text">
-            I build software with an eye toward how it behaves under real
-            conditions, and I spend most of my time at the intersection of
-            cybersecurity, embedded systems, and low-level computing.
-          </p>
-          <div class="hero-actions">
-            <a class="post-tag" href="resume.png" download>Resume</a>
-            <a class="post-tag" href="mailto:valdezjorge841@gmail.com">Email</a>
-            <a class="post-tag" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
-          </div>
-        </div>
-      </div>
+<header
+  class="home-hero"
+  style="--home-hero-image: url('projects/security-lab/assets/images/banner-home.png')"
+>
+  <div class="home-hero-inner">
+    <p class="eyebrow reveal-on-load">Portfolio</p>
+    <h1 class="post-title reveal-on-load delay-1">Jorge Valdez</h1>
+    <span class="signal-bar" aria-hidden="true"></span>
+    <p class="post-author reveal-on-load delay-2">Computer Science Student, Georgia Tech</p>
+    <p class="headline-text reveal-on-load delay-2">
+      I build software with an eye toward how it behaves under real conditions,
+      at the intersection of cybersecurity, embedded systems, and low-level computing.
+    </p>
+    <div class="hero-actions reveal-on-load delay-3">
+      <a class="btn-primary" href="resume.png" download>Resume</a>
+      <a class="text-link" href="mailto:valdezjorge841@gmail.com">Email</a>
+      <a class="text-link" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
     </div>
+  </div>
+</header>
 
-    <hr class="post-divider" />
+<main class="home-main">
+  <p class="section-label">Featured work</p>
 
-    <p class="section-label">Pinned</p>
-    <a class="post-list-item is-pinned" href="about.html">
-      <div class="post-list-meta-row">
-        <span class="post-list-pin">&#9733; Pinned</span>
-        <span class="post-list-tag">About</span>
-      </div>
-      <div class="post-list-title">About Me</div>
-      <p class="post-list-snippet">
-        Background, coursework, and the skills I keep coming back to across
-        classes, CTFs, and side projects.
-      </p>
-    </a>
+  <a class="post-list-item is-featured" href="projects/security-lab/index.html">
+    <div class="post-list-meta-row">
+      <span class="post-list-pin">Flagship</span>
+      <span class="post-list-tag">Security · Detection Engineering</span>
+      <span class="post-list-tag">June 14, 2026</span>
+    </div>
+    <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+    <p class="post-list-snippet">
+      A full kill chain across three VMs, with custom Wazuh rules and an incident
+      report on what the default detections missed.
+    </p>
+  </a>
 
-    <p class="section-label">Featured Work</p>
-    <ul class="post-list">
-      <li>
-        <a class="post-list-item" href="projects/security-lab/index.html">
-          <div class="post-list-meta-row">
-            <span class="post-list-tag">Security &middot; Detection Engineering</span>
-            <span class="post-list-tag">June 14, 2026</span>
-          </div>
-          <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
-          <p class="post-list-snippet">
-            A full kill chain across three VMs, with custom Wazuh rules and
-            an incident report on what the default detections missed.
-          </p>
-        </a>
-      </li>
-      <li>
-        <a class="post-list-item" href="https://github.com/jorgevaldezzz/RAG-Bot-Research-Tool" target="_blank" rel="noreferrer">
-          <div class="post-list-meta-row">
-            <span class="post-list-tag">Security &middot; Retrieval</span>
-          </div>
-          <div class="post-list-title">CTF Intelligence Assistant</div>
-          <p class="post-list-snippet">
-            Retrieval-augmented research over a 137K-chunk corpus (135,839
-            NVD/CVE records and 1,456 CTF writeups). Hybrid retrieval,
-            faithfulness 0.827.
-          </p>
-        </a>
-      </li>
-    </ul>
-  </main>
-</div>
+  <a
+    class="post-list-item is-featured"
+    href="https://github.com/jorgevaldezzz/RAG-Bot-Research-Tool"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <div class="post-list-meta-row">
+      <span class="post-list-pin">Research</span>
+      <span class="post-list-tag">Hybrid retrieval</span>
+    </div>
+    <div class="post-list-title">CTF Intelligence Assistant</div>
+    <p class="post-list-snippet">
+      Retrieval-augmented research over a 137K-chunk corpus (135,839 NVD/CVE
+      records and 1,456 CTF writeups). Hybrid retrieval, faithfulness 0.827.
+    </p>
+  </a>
+
+  <p class="home-more">
+    More background and smaller projects on
+    <a href="about.html">About</a>
+    · writeups on the
+    <a href="blog/index.html">Blog</a>.
+  </p>
+</main>
 
 <footer class="site-footer">
   <p>&copy; 2026 Jorge Valdez.</p>
+  <ul class="footer-links">
+    <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+    <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+    <li><a href="resume.png" download>Resume</a></li>
+  </ul>
 </footer>
 
+<script src="scripts.js"></script>
 </body>
-</html> 
+</html>

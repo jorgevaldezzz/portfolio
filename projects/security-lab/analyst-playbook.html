@@ -6,20 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Analyst Playbook | Security Lab Portfolio</title>
     <meta name="description" content="Analyst playbook and investigation workflow for the security lab portfolio." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
     <nav class="navbar">
         <a class="navbar-logo" href="../../index.html" aria-label="Home">
-            <img src="../../logo.png" alt="Jorge Valdez" />
+            <img src="../../logo.png" alt="" />
+            <span class="navbar-wordmark">Jorge Valdez</span>
         </a>
-        <ul class="navbar-links">
-            <li><a href="../../index.html">Home</a></li>
-            <li><a href="../../about.html">About</a></li>
-            <li><a href="index.html">Security Lab</a></li>
-            <li><a href="incident-response.html">Incident Response</a></li>
-        </ul>
+        <div class="navbar-end">
+            <ul class="navbar-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../about.html">About</a></li>
+                <li><a href="index.html">Lab</a></li>
+                <li><a href="../../blog/index.html">Blog</a></li>
+            </ul>
+            <ul class="navbar-lab-links">
+                <li><a href="index.html">Writeup</a></li>
+                <li><a href="incident-response.html">IR</a></li>
+                <li><a href="analyst-playbook.html">Playbook</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="page-wrapper" id="top">
@@ -40,7 +52,9 @@
         <main class="content">
             <div class="page-head">
                 <div class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html">Home</a>
+                    <a href="../../index.html">Home</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <a href="index.html">Lab</a>
                     <span class="breadcrumb-sep">/</span>
                     <span>Analyst Playbook</span>
                 </div>
@@ -49,6 +63,7 @@
                 <div class="headline-copy">
                     <p class="eyebrow">Playbook report</p>
                     <h1 class="post-title">IR Workflow</h1>
+                    <span class="signal-bar" aria-hidden="true"></span>
                     <p class="post-author">Author: Jorge Valdez</p>
                     <p class="headline-text">
                         A repeatable investigation flow for validating alerts, gathering evidence, and deciding when to escalate or close a case.
@@ -56,6 +71,19 @@
                     </div>
                 </div>
             </div>
+
+            
+            <details class="toc-mobile">
+                <summary>On this page</summary>
+                <ul class="toc">
+                    <li><a href="#summary">Overview</a></li>
+                    <li><a href="#first-checks">First Checks</a></li>
+                    <li><a href="#evidence">Evidence Collection</a></li>
+                    <li><a href="#escalation">Escalation Criteria</a></li>
+                    <li><a href="#followup">Follow-up</a></li>
+                    <li><a href="#workflow">Response Workflow</a></li>
+                </ul>
+            </details>
 
             <div class="post-meta">
                 <span>Analyst guidance</span>
@@ -227,8 +255,17 @@
             </div>
         </main>
     </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 Jorge Valdez.</p>
+        <ul class="footer-links">
+            <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+            <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a href="../../resume.png" download>Resume</a></li>
+        </ul>
+    </footer>
 
-    <script src="script.js"></script>
+    <script src="../../scripts.js"></script>
+
 </body>
 
 </html>

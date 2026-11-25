@@ -8,19 +8,31 @@
       name="description"
       content="Incident report and response notes for the security lab portfolio."
     />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <nav class="navbar">
-      <a class="navbar-logo" href="../../index.html" aria-label="Home">
-        <img src="../../logo.png" alt="Jorge Valdez" />
-      </a>
-      <ul class="navbar-links">
-        <li><a href="../../index.html">Home</a></li>
-        <li><a href="../../about.html">About</a></li>
-        <li><a href="index.html">Security Lab</a></li>
-        <li><a href="analyst-playbook.html">Playbook</a></li>
-      </ul>
+        <a class="navbar-logo" href="../../index.html" aria-label="Home">
+            <img src="../../logo.png" alt="" />
+            <span class="navbar-wordmark">Jorge Valdez</span>
+        </a>
+        <div class="navbar-end">
+            <ul class="navbar-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../about.html">About</a></li>
+                <li><a href="index.html">Lab</a></li>
+                <li><a href="../../blog/index.html">Blog</a></li>
+            </ul>
+            <ul class="navbar-lab-links">
+                <li><a href="index.html">Writeup</a></li>
+                <li><a href="incident-response.html">IR</a></li>
+                <li><a href="analyst-playbook.html">Playbook</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="page-wrapper" id="top">
@@ -43,7 +55,9 @@
       <main class="content">
         <div class="page-head">
           <div class="breadcrumb" aria-label="Breadcrumb">
-            <a href="index.html">Home</a>
+            <a href="../../index.html">Home</a>
+            <span class="breadcrumb-sep">/</span>
+            <a href="index.html">Lab</a>
             <span class="breadcrumb-sep">/</span>
             <span>Incident Response</span>
           </div>
@@ -52,6 +66,7 @@
             <div class="headline-copy">
               <p class="eyebrow">Incident report</p>
               <h1 class="post-title">IR-2026-001</h1>
+              <span class="signal-bar" aria-hidden="true"></span>
               <p class="post-author">Author: Jorge Valdez</p>
               <p class="headline-text">
                 Controlled red team exercise covering reverse shell delivery, privilege escalation, credential dumping,
@@ -66,6 +81,21 @@
             </div>
           </div>
         </div>
+
+        
+        <details class="toc-mobile">
+          <summary>On this page</summary>
+          <ul class="toc">
+            <li><a href="#summary">Executive Summary</a></li>
+            <li><a href="#timeline">Attack Timeline</a></li>
+            <li><a href="#narrative">Attack Narrative</a></li>
+            <li><a href="#iocs">Indicators of Compromise</a></li>
+            <li><a href="#mitre">MITRE Coverage</a></li>
+            <li><a href="#notes">Detection Notes</a></li>
+            <li><a href="#recommendations">Recommendations</a></li>
+            <li><a href="#appendix">Appendix</a></li>
+          </ul>
+        </details>
 
         <div class="post-meta">
           <span>Opened 2026-06-05 21:00 UTC</span>
@@ -430,7 +460,16 @@
         </div>
       </main>
     </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 Jorge Valdez.</p>
+        <ul class="footer-links">
+            <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+            <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a href="../../resume.png" download>Resume</a></li>
+        </ul>
+    </footer>
 
-    <script src="script.js"></script>
-  </body>
+    <script src="../../scripts.js"></script>
+
+</body>
 </html>
