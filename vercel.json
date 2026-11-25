@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/incident-response.html",
+      "destination": "/projects/security-lab/incident-response.html",
+      "permanent": true
+    },
+    {
+      "source": "/analyst-playbook.html",
+      "destination": "/projects/security-lab/analyst-playbook.html",
+      "permanent": true
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "/projects/security-lab/assets/:path*",
+      "permanent": true
+    }
+  ]
+}

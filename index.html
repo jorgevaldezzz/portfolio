@@ -14,6 +14,9 @@
     <img src="logo.png" alt="Jorge Valdez" />
   </a>
   <ul class="navbar-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects/security-lab/index.html">Lab</a></li>
     <li><a href="blog/index.html">Blog</a></li>
   </ul>
 </nav>
@@ -29,8 +32,7 @@
           <p class="headline-text">
             I build software with an eye toward how it behaves under real
             conditions, and I spend most of my time at the intersection of
-            cybersecurity, embedded systems, and low-level computing. Below
-            is a running feed of what I've been building.
+            cybersecurity, embedded systems, and low-level computing.
           </p>
           <div class="hero-actions">
             <a class="post-tag" href="resume.png" download>Resume</a>
@@ -44,35 +46,43 @@
     <hr class="post-divider" />
 
     <p class="section-label">Pinned</p>
-    <a class="post-list-item is-pinned" href="about.html" data-pinned-link>
+    <a class="post-list-item is-pinned" href="about.html">
       <div class="post-list-meta-row">
-        <span class="post-list-pin" data-pinned-pin>&#9733; Pinned</span>
-        <span class="post-list-tag" data-pinned-tag>About</span>
+        <span class="post-list-pin">&#9733; Pinned</span>
+        <span class="post-list-tag">About</span>
       </div>
-      <div class="post-list-title" data-pinned-title>About Me</div>
-      <p class="post-list-snippet" data-pinned-snippet>
+      <div class="post-list-title">About Me</div>
+      <p class="post-list-snippet">
         Background, coursework, and the skills I keep coming back to across
         classes, CTFs, and side projects.
       </p>
     </a>
 
-    <p class="section-label">Most Recent Post</p>
-    <ul class="post-list" id="recent-post-list" aria-live="polite">
+    <p class="section-label">Featured Work</p>
+    <ul class="post-list">
       <li>
-        <a
-          class="post-list-item"
-          href="projects/security-lab/index.html"
-          data-latest-link
-        >
+        <a class="post-list-item" href="projects/security-lab/index.html">
           <div class="post-list-meta-row">
-            <span class="post-list-tag" data-latest-category>Security &middot; Detection Engineering</span>
-            <span class="post-list-tag" data-latest-date>June 14, 2026</span>
+            <span class="post-list-tag">Security &middot; Detection Engineering</span>
+            <span class="post-list-tag">June 14, 2026</span>
           </div>
-          <div class="post-list-title" data-latest-title>Adversary Simulation &amp; Detection Lab</div>
-          <p class="post-list-snippet" data-latest-summary>
-            A full kill chain simulation across three VMs, with custom Wazuh
-            detection rules, an incident report, and a gap analysis of what
-            the default rules missed.
+          <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+          <p class="post-list-snippet">
+            A full kill chain across three VMs, with custom Wazuh rules and
+            an incident report on what the default detections missed.
+          </p>
+        </a>
+      </li>
+      <li>
+        <a class="post-list-item" href="https://github.com/jorgevaldezzz/RAG-Bot-Research-Tool" target="_blank" rel="noreferrer">
+          <div class="post-list-meta-row">
+            <span class="post-list-tag">Security &middot; Retrieval</span>
+          </div>
+          <div class="post-list-title">CTF Intelligence Assistant</div>
+          <p class="post-list-snippet">
+            Retrieval-augmented research over a 137K-chunk corpus (135,839
+            NVD/CVE records and 1,456 CTF writeups). Hybrid retrieval,
+            faithfulness 0.827.
           </p>
         </a>
       </li>
@@ -84,6 +94,5 @@
   <p>&copy; 2026 Jorge Valdez.</p>
 </footer>
 
-<script src="scripts.js"></script>
 </body>
 </html> 
