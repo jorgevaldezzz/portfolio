@@ -32,6 +32,7 @@
       <ul class="toc">
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -76,6 +77,7 @@
       <ul class="toc">
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -114,9 +116,21 @@
     <section id="experience">
       <h2>Experience</h2>
       <p>
-        Most of what I know so far has come from three overlapping sources:
-        coursework, independent projects, and writing things down publicly
-        as I go.
+        Most of what I know so far has come from coursework, research in
+        the Embedded Systems Cybersecurity VIP, independent projects, and
+        writing things down publicly as I go.
+      </p>
+      <h3>Embedded Systems Cybersecurity VIP, Georgia Tech</h3>
+      <p>
+        Since fall 2026 I have been a vulnerability researcher on a
+        commercial wireless fire alarm gateway. I reverse engineered the
+        main communications loop of the firmware in Ghidra, mapping how
+        the serial interface (USCI_A0) is set up and how messages are
+        handled across three functions. I traced a message-termination
+        flag through a four-level call chain to the parameter condition
+        that triggers it, wrote a section of a technical paper on the RF
+        gateway and signaling line circuit, and corrected a decompiler
+        artifact in analysis the group had inherited.
       </p>
       <h3>Georgia Tech, Computer Science</h3>
       <p>
@@ -140,6 +154,18 @@
         what didn't work first, and why the eventual solution held is where
         most of the actual learning gets locked in.
       </p>
+    </section>
+
+    <section id="certifications">
+      <h2>Certifications</h2>
+      <p>
+        I hold CompTIA Security+, CompTIA Network+, and GIAC GFACT.
+      </p>
+      <div class="chip-row">
+        <span class="chip">CompTIA Security+</span>
+        <span class="chip">CompTIA Network+</span>
+        <span class="chip">GIAC GFACT</span>
+      </div>
     </section>
 
     <section id="skills">
