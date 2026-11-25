@@ -14,6 +14,9 @@
     <img src="logo.png" alt="Jorge Valdez" />
   </a>
   <ul class="navbar-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects/security-lab/index.html">Lab</a></li>
     <li><a href="blog/index.html">Blog</a></li>
   </ul>
 </nav>
@@ -55,6 +58,11 @@
           <a class="post-tag" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
+      <figure>
+        <a href="resume.png" download>
+          <img src="resume.png" alt="Preview of Jorge Valdez's resume" />
+        </a>
+      </figure>
     </div>
 
     <div class="post-meta">
@@ -107,8 +115,8 @@
         Outside of class, I build personal and team projects specifically
         to get repetitions on implementation, architecture, and deployment
         &mdash; the parts of software engineering that coursework alone
-        doesn't force you to practice. See the <a href="index.html">home
-        page</a> for the running list.
+        doesn't force you to practice. The
+        <a href="#projects">projects</a> below are the current set.
       </p>
       <h3>Security Writeups</h3>
       <p>
@@ -151,9 +159,44 @@
     <section id="projects">
       <h2>Projects</h2>
       <p>
-        A few smaller projects, alongside the <a href="index.html">security
-        lab writeup</a> on the home page.
+        The detection lab and the retrieval tool come first. Writeups and
+        the smaller apps follow.
       </p>
+
+      <div class="feature-card">
+        <h3>Adversary Simulation &amp; Detection Lab</h3>
+        <p class="project-stack">Wazuh &middot; Sysmon &middot; VirtualBox</p>
+        <p>
+          A full kill chain across three VMs, with custom Wazuh rules and
+          an incident report.
+        </p>
+        <div class="project-links">
+          <a href="projects/security-lab/index.html">Lab Writeup</a>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <h3>CTF Intelligence Assistant</h3>
+        <p class="project-stack">Hybrid retrieval</p>
+        <p>
+          Retrieval-augmented research over a 137K-chunk corpus (135,839
+          NVD/CVE records and 1,456 CTF writeups). Faithfulness 0.827.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/jorgevaldezzz/RAG-Bot-Research-Tool" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+
+      <div class="project-entry">
+        <h3>CTF Writeups</h3>
+        <p>
+          Notes from challenges: the approach, what failed first, and why
+          the solution held.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/jorgevaldezzz/ctf-writeups" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
 
       <div class="project-entry">
         <h3>Chess Web App</h3>
@@ -183,7 +226,7 @@
       </div>
 
       <div class="project-entry">
-        <h3>Movie Store Project</h3>
+        <h3>Movie Store</h3>
         <p class="project-stack">Python &middot; Django &middot; HTML &middot; CSS</p>
         <p>
           A project built around object-oriented design first, aimed at a
@@ -194,10 +237,6 @@
           <a href="https://github.com/jorgevaldezzz/Movie-Store" target="_blank" rel="noreferrer">GitHub Repo</a>
         </div>
       </div>
-
-      <p>
-        <a href="https://github.com/jorgevaldezzz/ctf-writeups" target="_blank" rel="noreferrer">CTF Writeups &rarr;</a>
-      </p>
     </section>
 
     <section id="contact">
