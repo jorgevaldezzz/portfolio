@@ -1,53 +1,91 @@
 (() => {
-  const content = {
-    pinned: {
-      title: 'About Me',
-      href: 'about.html',
-      tag: 'About',
-      snippet:
-        'Background, coursework, and the skills I keep coming back to across classes, CTFs, and side projects.',
-    },
-    latest: {
-      title: 'Adversary Simulation & Detection Lab',
-      href: 'projects/security-lab/index.html',
-      summary:
-        'A full kill chain simulation across three VMs, with custom Wazuh detection rules, an incident report, and a gap analysis of what the default rules missed.',
-      category: 'Security &middot; Detection Engineering',
-      date: '2026-06-14',
-    },
+  const path = window.location.pathname.replace(/\/+$/, "");
+  const segments = path.split("/").filter(Boolean);
+  const file = segments[segments.length - 1] || "index.html";
+  const inLab = segments.includes("security-lab");
+  const inBlog = segments.includes("blog");
+
+  document.querySelectorAll(".navbar-links > li > a").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const text = (link.textContent || "").trim().toLowerCase();
+    let active = false;
+
+    if (text === "lab" && inLab) active = true;
+    else if (text === "blog" && inBlog) active = true;
+    else if (text === "about" && file === "about.html") active = true;
+    else if (
+      text === "home" &&
+      !inLab &&
+      !inBlog &&
+      (file === "index.html" || segments.length === 0)
+    ) {
+      active = true;
+    }
+
+    if (active) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+
+  document.querySelectorAll(".navbar-lab-links a").forEach((link) => {
+    const href = (link.getAttribute("href") || "").split("/").pop();
+    if (href && file === href) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+
+  const sections = Array.from(document.querySelectorAll("main.content section[id]"));
+  if (!sections.length) return;
+
+  const tocLinks = Array.from(
+    document.querySelectorAll('.toc a[href^="#"], .toc-mobile a[href^="#"]')
+  );
+  if (!tocLinks.length) return;
+
+  const byId = new Map();
+  tocLinks.forEach((link) => {
+    const id = (link.getAttribute("href") || "").slice(1);
+    if (!id) return;
+    if (!byId.has(id)) byId.set(id, []);
+    byId.get(id).push(link);
+  });
+
+  let last = null;
+  const setActive = (id) => {
+    if (!id || id === last) return;
+    last = id;
+    tocLinks.forEach((l) => l.classList.remove("active"));
+    (byId.get(id) || []).forEach((l) => l.classList.add("active"));
   };
 
-  const formatDate = (dateString) =>
-    new Intl.DateTimeFormat('en-US', {
-      timeZone: 'UTC',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }).format(new Date(`${dateString}T00:00:00Z`));
-
-  const setText = (selector, value) => {
-    const el = document.querySelector(selector);
-    if (el) el.textContent = value;
+  const pick = () => {
+    const offset = 120;
+    let best = null;
+    let bestDist = Infinity;
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const dist = Math.abs(rect.top - offset);
+      if (rect.bottom >= offset && dist < bestDist) {
+        best = section.id;
+        bestDist = dist;
+      }
+    });
+    if (!best && sections.length) best = sections[sections.length - 1].id;
+    setActive(best);
   };
 
-  const setHtml = (selector, value) => {
-    const el = document.querySelector(selector);
-    if (el) el.innerHTML = value;
+  let raf = null;
+  const onScroll = () => {
+    if (raf !== null) return;
+    raf = requestAnimationFrame(() => {
+      raf = null;
+      pick();
+    });
   };
 
-  const setHref = (selector, value) => {
-    const el = document.querySelector(selector);
-    if (el) el.href = value;
-  };
-
-  setHref('[data-pinned-link]', content.pinned.href);
-  setText('[data-pinned-title]', content.pinned.title);
-  setText('[data-pinned-snippet]', content.pinned.snippet);
-  setText('[data-pinned-tag]', content.pinned.tag);
-
-  setHref('[data-latest-link]', content.latest.href);
-  setText('[data-latest-title]', content.latest.title);
-  setText('[data-latest-summary]', content.latest.summary);
-  setHtml('[data-latest-category]', content.latest.category);
-  setText('[data-latest-date]', formatDate(content.latest.date));
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  pick();
 })();

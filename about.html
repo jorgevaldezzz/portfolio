@@ -3,17 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>About &middot; Jorge Valdez</title>
+<title>About · Jorge Valdez</title>
 <meta name="description" content="Jorge Valdez is a Georgia Tech computer science student focused on cybersecurity, embedded systems, and software engineering." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <nav class="navbar">
   <a class="navbar-logo" href="index.html" aria-label="Home">
-    <img src="logo.png" alt="Jorge Valdez" />
+    <img src="logo.png" alt="" />
+    <span class="navbar-wordmark">Jorge Valdez</span>
   </a>
   <ul class="navbar-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects/security-lab/index.html">Lab</a></li>
     <li><a href="blog/index.html">Blog</a></li>
   </ul>
 </nav>
@@ -42,8 +49,9 @@
       <div class="headline">
         <div class="headline-copy">
           <p class="eyebrow">About</p>
-          <h1 class="post-title">Jorge Valdez</h1>
-          <p class="post-author">Computer Science Student, Georgia Tech</p>
+          <h1 class="post-title reveal-on-load">Jorge Valdez</h1>
+          <span class="signal-bar" aria-hidden="true"></span>
+          <p class="post-author">Computer Science Student, Georgia Tech · Systems &amp; Security</p>
           <p class="headline-text">
             I build software with an eye toward how it behaves under real
             conditions, and I spend most of my time at the intersection of
@@ -51,17 +59,28 @@
           </p>
         </div>
         <div class="headline-links">
-          <a class="post-tag" href="resume.png" download>Resume</a>
-          <a class="post-tag" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn-primary" href="resume.png" download>Resume</a>
+          <a class="btn-ghost" href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
     </div>
 
+    <details class="toc-mobile">
+      <summary>On this page</summary>
+      <ul class="toc">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </details>
+
     <div class="post-meta">
       <span>Cybersecurity</span>
-      <span class="post-meta-sep">&middot;</span>
+      <span class="post-meta-sep">·</span>
       <span>Embedded Systems</span>
-      <span class="post-meta-sep">&middot;</span>
+      <span class="post-meta-sep">·</span>
       <span>Software Engineering</span>
     </div>
 
@@ -82,9 +101,7 @@
         clear implementation over clever implementation, documentation that
         actually explains a decision instead of just describing it, and
         treating a project as something to iterate on rather than finish
-        once and walk away from. That last part matters more than it
-        sounds &mdash; a lot of what I've learned came from going back into a
-        working project and asking why a specific choice held up or didn't.
+        once and walk away from.
       </p>
     </section>
 
@@ -98,17 +115,16 @@
       <h3>Georgia Tech, Computer Science</h3>
       <p>
         My coursework is centered on cybersecurity, embedded systems, and
-        the software fundamentals that underpin both &mdash; the kind of
+        the software fundamentals that underpin both — the kind of
         material that's less about a specific language and more about how
         computing systems are put together.
       </p>
       <h3>Independent Project Work</h3>
       <p>
         Outside of class, I build personal and team projects specifically
-        to get repetitions on implementation, architecture, and deployment
-        &mdash; the parts of software engineering that coursework alone
-        doesn't force you to practice. See the <a href="index.html">home
-        page</a> for the running list.
+        to get repetitions on implementation, architecture, and deployment —
+        the parts of software engineering that coursework alone
+        doesn't force you to practice.
       </p>
       <h3>Security Writeups</h3>
       <p>
@@ -122,42 +138,69 @@
     <section id="skills">
       <h2>Skills</h2>
       <p>
-        These are the areas I keep coming back to, whether the entry point
-        is a class, a CTF, or a side project.
+        Areas I keep returning to across classes, CTFs, and side projects.
       </p>
-      <h3>Core Interests</h3>
+      <h3>Focus</h3>
       <div class="chip-row">
         <span class="chip">Cybersecurity</span>
+        <span class="chip">Detection Engineering</span>
         <span class="chip">Embedded Systems</span>
-        <span class="chip">Computer Architecture</span>
         <span class="chip">Low-level Programming</span>
       </div>
-      <h3>Build Stack</h3>
+      <h3>Tools</h3>
       <div class="chip-row">
         <span class="chip">Python</span>
-        <span class="chip">Django</span>
+        <span class="chip">Wazuh / Sysmon</span>
         <span class="chip">JavaScript</span>
-        <span class="chip">HTML / CSS</span>
-      </div>
-      <h3>Working Style</h3>
-      <div class="chip-row">
-        <span class="chip">Problem Solving</span>
-        <span class="chip">Systems Thinking</span>
-        <span class="chip">Documentation</span>
-        <span class="chip">Iterative Refinement</span>
+        <span class="chip">Django</span>
       </div>
     </section>
 
     <section id="projects">
       <h2>Projects</h2>
       <p>
-        A few smaller projects, alongside the <a href="index.html">security
-        lab writeup</a> on the home page.
+        The detection lab and the retrieval tool come first. Writeups and the
+        smaller apps follow.
       </p>
+
+      <div class="project-entry is-featured">
+        <h3>Adversary Simulation &amp; Detection Lab</h3>
+        <p class="project-stack">Wazuh · Sysmon · VirtualBox</p>
+        <p>
+          A full kill chain across three VMs, with custom Wazuh rules and an
+          incident report.
+        </p>
+        <div class="project-links">
+          <a href="projects/security-lab/index.html">Lab Writeup</a>
+        </div>
+      </div>
+
+      <div class="project-entry is-featured">
+        <h3>CTF Intelligence Assistant</h3>
+        <p class="project-stack">Hybrid retrieval</p>
+        <p>
+          Retrieval-augmented research over a 137K-chunk corpus (135,839 NVD/CVE
+          records and 1,456 CTF writeups). Faithfulness 0.827.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/jorgevaldezzz/RAG-Bot-Research-Tool" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+
+      <div class="project-entry">
+        <h3>CTF Writeups</h3>
+        <p>
+          Notes from challenges: the approach, what failed first, and why the
+          solution held.
+        </p>
+        <div class="project-links">
+          <a href="https://github.com/jorgevaldezzz/ctf-writeups" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
 
       <div class="project-entry">
         <h3>Chess Web App</h3>
-        <p class="project-stack">Python &middot; JavaScript &middot; HTML &middot; CSS</p>
+        <p class="project-stack">Python · JavaScript · HTML · CSS</p>
         <p>
           A multi-phase chess application built to practice full-stack
           development, from game logic to a deployed browser interface.
@@ -170,7 +213,7 @@
 
       <div class="project-entry">
         <h3>BridgeOut</h3>
-        <p class="project-stack">Python &middot; Django &middot; HTML &middot; CSS</p>
+        <p class="project-stack">Python · Django · HTML · CSS</p>
         <p>
           A team-based web application where the real challenge was
           software design and coordinating changes across a shared
@@ -184,7 +227,7 @@
 
       <div class="project-entry">
         <h3>Movie Store Project</h3>
-        <p class="project-stack">Python &middot; Django &middot; HTML &middot; CSS</p>
+        <p class="project-stack">Python · Django · HTML · CSS</p>
         <p>
           A project built around object-oriented design first, aimed at a
           modular, maintainable structure rather than just a working store.
@@ -195,9 +238,12 @@
         </div>
       </div>
 
-      <p>
-        <a href="https://github.com/jorgevaldezzz/ctf-writeups" target="_blank" rel="noreferrer">CTF Writeups &rarr;</a>
-      </p>
+      <figure class="resume-preview">
+        <figcaption>Resume preview</figcaption>
+        <a href="resume.png" download>
+          <img src="resume.png" alt="Resume preview for Jorge Valdez" />
+        </a>
+      </figure>
     </section>
 
     <section id="contact">
@@ -216,8 +262,13 @@
 
 <footer class="site-footer">
   <p>&copy; 2026 Jorge Valdez.</p>
+  <ul class="footer-links">
+    <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+    <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+    <li><a href="resume.png" download>Resume</a></li>
+  </ul>
 </footer>
 
-<script src="script.js"></script>
+<script src="scripts.js"></script>
 </body>
 </html>

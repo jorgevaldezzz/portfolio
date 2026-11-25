@@ -3,33 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Blog &middot; Jorge Valdez</title>
+<title>Blog · Jorge Valdez</title>
 <meta name="description" content="Blog index for Jorge Valdez's project writeups and security lab notes." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
 
 <nav class="navbar">
   <a class="navbar-logo" href="../index.html" aria-label="Home">
-    <img src="../logo.png" alt="Jorge Valdez" />
+    <img src="../logo.png" alt="" />
+    <span class="navbar-wordmark">Jorge Valdez</span>
   </a>
   <ul class="navbar-links">
     <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../projects/security-lab/index.html">Lab</a></li>
+    <li><a href="index.html">Blog</a></li>
   </ul>
 </nav>
 
 <div class="page-wrapper" id="top">
-  <aside class="sidebar">
-    <div class="sidebar-sticky">
-      <div class="sidebar-label">Blog Index</div>
-      <ul class="toc">
-        <li><a href="#featured">Featured Post</a></li>
-        <li><a href="#archive">Archive</a></li>
-      </ul>
-    </div>
-  </aside>
-
-  <main class="content">
+  <main class="content" style="width: 100%; max-width: var(--content-w); margin: 0 auto;">
     <div class="page-head">
       <div class="breadcrumb" aria-label="Breadcrumb">
         <a href="../index.html">Home</a>
@@ -40,71 +37,71 @@
       <div class="headline">
         <div class="headline-copy">
           <p class="eyebrow">Blog</p>
-          <h1 class="post-title">Project Writeups</h1>
-        </div>
-        <div class="headline-links">
-          <a class="post-tag" href="#featured">Featured</a>
-          <a class="post-tag" href="#archive">Archive</a>
-          <a class="post-tag" href="../projects/security-lab/index.html">Security Lab</a>
+          <h1 class="post-title reveal-on-load">Project Writeups</h1>
+          <span class="signal-bar" aria-hidden="true"></span>
+          <p class="headline-text">
+            Notes from labs and projects — detection engineering first.
+          </p>
         </div>
       </div>
     </div>
 
     <div class="post-meta">
       <span>1 published post</span>
-      <span class="post-meta-sep">&middot;</span>
-      <span>Security Lab, detection engineering, incident response</span>
-      <span class="post-meta-sep">&middot;</span>
-      <span>June 14, 2026</span>
+      <span class="post-meta-sep">·</span>
+      <span>Security Lab</span>
     </div>
 
     <hr class="post-divider" />
 
-    <section id="featured">
-      <h2>Featured Post</h2>
-      <a class="post-list-item is-pinned" href="../projects/security-lab/index.html">
-        <div class="post-list-meta-row">
-          <span class="post-list-pin">&#9733; Latest</span>
-          <span class="post-list-tag">Security Lab</span>
-          <span class="post-list-tag">Detection Engineering</span>
-        </div>
-        <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
-        <p class="post-list-snippet">
-          A full kill chain simulation across three VMs, with custom Wazuh
-          detection rules, an incident report, and a gap analysis of what the
-          default rules missed.
-        </p>
-      </a>
+    <p class="section-label">Featured</p>
+    <a class="post-list-item is-featured" href="../projects/security-lab/index.html">
+      <div class="post-list-meta-row">
+        <span class="post-list-pin">Latest</span>
+        <span class="post-list-tag">Security Lab</span>
+        <span class="post-list-tag">Detection Engineering</span>
+        <span class="post-list-tag">June 14, 2026</span>
+      </div>
+      <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+      <p class="post-list-snippet">
+        A full kill chain simulation across three VMs, with custom Wazuh
+        detection rules, an incident report, and a gap analysis of what the
+        default rules missed.
+      </p>
+    </a>
 
-      <figure>
-        <img src="../projects/security-lab/assets/images/banner-home.png" alt="Security lab banner preview" />
-      </figure>
-    </section>
+    <figure>
+      <img src="../projects/security-lab/assets/images/banner-home.png" alt="Security lab banner preview" />
+    </figure>
 
-    <section id="archive">
-      <h2>Archive</h2>
-      <ul class="post-list">
-        <li>
-          <a class="post-list-item" href="../projects/security-lab/index.html">
-            <div class="post-list-meta-row">
-              <span class="post-list-tag">Security Lab</span>
-              <span class="post-list-tag">June 14, 2026</span>
-            </div>
-            <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
-            <p class="post-list-snippet">
-              Reverse shell delivery, persistence, credential dumping, and
-              response notes from the lab build.
-            </p>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <p class="section-label">Archive</p>
+    <ul class="post-list">
+      <li>
+        <a class="post-list-item" href="../projects/security-lab/index.html">
+          <div class="post-list-meta-row">
+            <span class="post-list-tag">Security Lab</span>
+            <span class="post-list-tag">June 14, 2026</span>
+          </div>
+          <div class="post-list-title">Adversary Simulation &amp; Detection Lab</div>
+          <p class="post-list-snippet">
+            Reverse shell delivery, persistence, credential dumping, and
+            response notes from the lab build.
+          </p>
+        </a>
+      </li>
+    </ul>
   </main>
 </div>
 
 <footer class="site-footer">
   <p>&copy; 2026 Jorge Valdez.</p>
+  <ul class="footer-links">
+    <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+    <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+    <li><a href="../resume.png" download>Resume</a></li>
+  </ul>
 </footer>
 
+<script src="../scripts.js"></script>
 </body>
 </html>

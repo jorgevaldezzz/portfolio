@@ -6,18 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Security Lab Portfolio</title>
     <meta name="description" content="A cybersecurity lab writeup covering setup, attacks, detections, incident response, and an analyst playbook." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-    <nav class="navbar">
+        <nav class="navbar">
         <a class="navbar-logo" href="../../index.html" aria-label="Home">
-            <img src="../../logo.png" alt="Jorge Valdez" />
+            <img src="../../logo.png" alt="" />
+            <span class="navbar-wordmark">Jorge Valdez</span>
         </a>
-        <ul class="navbar-links">
-            <li><a href="incident-response.html">Incident Response</a></li>
+        <div class="navbar-end">
+<ul class="navbar-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="index.html">Lab</a></li>
+            <li><a href="../../blog/index.html">Blog</a></li>
+        </ul>
+<ul class="navbar-lab-links">
+            <li><a href="index.html">Writeup</a></li>
+            <li><a href="incident-response.html">IR</a></li>
             <li><a href="analyst-playbook.html">Playbook</a></li>
         </ul>
+        </div>
     </nav>
 
     <div class="page-wrapper" id="top">
@@ -38,15 +52,18 @@
         <main class="content">
             <div class="page-head">
                 <div class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="#top">Home</a>
+                    <a href="../../index.html">Home</a>
                     <span class="breadcrumb-sep">/</span>
-                    <span>Lab writeup</span>
+                    <a href="index.html">Lab</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span>Writeup</span>
                 </div>
 
                 <div class="headline">
                     <div class="headline-copy">
                         <p class="eyebrow">Security lab</p>
                         <h1 class="post-title">Security Lab Portfolio</h1>
+                        <span class="signal-bar" aria-hidden="true"></span>
                         <p class="post-author">Author: Jorge Valdez</p>
                         <p class="headline-text">
                             A short writeup of the lab build, attack tests, and the detections that came out of it.
@@ -61,6 +78,19 @@
                     </div>
                 </div>
             </div>
+
+            
+            <details class="toc-mobile">
+                <summary>On this page</summary>
+                <ul class="toc">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#stack">Lab Stack</a></li>
+                    <li><a href="#setup">Project Setup</a></li>
+                    <li><a href="#attacks">Attack Simulation</a></li>
+                    <li><a href="#detections">Blue Team Detections</a></li>
+                    <li><a href="#future">What I'd Do Next</a></li>
+                </ul>
+            </details>
 
             <div class="post-meta">
                 <span>June 14, 2026</span>
@@ -175,9 +205,14 @@
                 <p>
                     The MITRE ATT&amp;CK mapping at this point covered T1059 (PowerShell execution), T1105 (ingress tool transfer), and T1547.001 (Run key persistence), and all three were detected and correctly tagged.
                 </p>
-                <figure>
-                    <img src="assets/images/attack-08-mitre-coverage.png" alt="MITRE coverage" />
-                </figure>
+                <div class="callout callout--note">
+                    <span class="callout-label">Note</span>
+                    <p>
+                        MITRE ATT&amp;CK coverage for this stage was verified in the Wazuh dashboard
+                        (T1059, T1105, T1547.001). The original coverage screenshot is not in the asset set;
+                        see the alert breakdown figures above and the IR report MITRE section.
+                    </p>
+                </div>
 
                 <p>
                     The second attack opened a Meterpreter session via Metasploit. From there, I loaded the Kiwi extension and ran <code>lsa_dump_sam</code> to invoke Mimikatz. It returned an NTLM hash for the Administrator account, enough to authenticate
@@ -336,8 +371,17 @@
             </section>
         </main>
     </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 Jorge Valdez.</p>
+        <ul class="footer-links">
+            <li><a href="mailto:valdezjorge841@gmail.com">Email</a></li>
+            <li><a href="https://github.com/jorgevaldezzz" target="_blank" rel="noreferrer">GitHub</a></li>
+            <li><a href="../../resume.png" download>Resume</a></li>
+        </ul>
+    </footer>
 
-    <script src="script.js"></script>
+    <script src="../../scripts.js"></script>
+
 </body>
 
 </html>
