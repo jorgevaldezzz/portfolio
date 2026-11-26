@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Security Lab Portfolio</title>
+    <title>Full kill chain detected</title>
     <meta name="description" content="A cybersecurity lab writeup covering setup, attacks, detections, incident response, and an analyst playbook." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -61,12 +61,12 @@
 
                 <div class="headline">
                     <div class="headline-copy">
-                        <p class="eyebrow">Security lab</p>
-                        <h1 class="post-title">Security Lab Portfolio</h1>
+                        <p class="eyebrow">Detection lab</p>
+                        <h1 class="post-title">Full kill chain detected</h1>
                         <span class="signal-bar" aria-hidden="true"></span>
                         <p class="post-author">Author: Jorge Valdez</p>
                         <p class="headline-text">
-                            A short writeup of the lab build, attack tests, and the detections that came out of it.
+                            A custom Wazuh rule chain cut the Run-key noise the default detections were raising.
                         </p>
                     </div>
                     <div class="headline-links">
@@ -209,8 +209,7 @@
                     <span class="callout-label">Note</span>
                     <p>
                         MITRE ATT&amp;CK coverage for this stage was verified in the Wazuh dashboard
-                        (T1059, T1105, T1547.001). The original coverage screenshot is not in the asset set;
-                        see the alert breakdown figures above and the IR report MITRE section.
+                        (T1059, T1105, T1547.001).
                     </p>
                 </div>
 
